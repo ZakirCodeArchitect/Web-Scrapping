@@ -1,0 +1,45 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+import time
+
+# Path to your ChromeDriver
+chrome_driver_path = "C:/Users/Hp/Downloads/chromedriver-win64/chromedriver-win64/chromedriver.exe"
+
+# Initialize Selenium WebDriver with your ChromeDriver path
+service = Service(chrome_driver_path)
+driver = webdriver.Chrome(service=service)
+
+# URL of the website
+url = 'https://ihc.gov.pk/'
+
+# Open the webpage
+driver.get(url)
+
+# Wait for the page to load fully (adjust if necessary)
+time.sleep(5)  # Adjust this if the page takes longer to load
+
+try:
+    # Locate the div with id 'divnews'
+    news_div = driver.find_element(By.ID, 'divnews')
+    
+    # Find all list items (li tags) within the news div
+    news_items = news_div.find_elements(By.TAG_NAME, 'li')
+    
+    # Open a file to save the news
+    with open('news.txt', 'w', encoding='utf-8') as file:
+        for item in news_items:
+            # Extract the title attribute from each news item
+            news_text = item.get_attribute('title').strip()
+            if news_text:  # Ensure it's not empty
+                file.write(news_text + '\n')
+                print(news_text)  # Print to console (optional)
+                
+    print("News items have been saved to 'news.txt'")
+    
+except Exception as e:
+    print("Could not find the news section. Verify the HTML structure or loading time.")
+    print("Error:", e)
+
+# Close the WebDriver
+driver.quit()
