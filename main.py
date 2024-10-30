@@ -47,37 +47,30 @@ try:
         
         # Write header if the file is new
         if not file_exists:
-            writer.writerow(['Date', 'News'])  # Write header row
+            writer.writerow(['Case Title', 'Case Date', 'Case Details'])  # Write header row
         
         for item in news_items:
             # Extract the title attribute from each news item
-            news_text = item.get_attribute('title').strip()
-            if news_text:  # Ensure it's not empty
+            news_title = item.get_attribute('title').strip()
+            if news_title:  # Ensure it's not empty
+                # Extract additional details if available (adjust according to the actual HTML structure)
+                details_text = item.text.strip()  # This might contain additional details
+
                 # You need to find the appropriate method to get the date here
-                # For now, let's set a placeholder for the date
                 date_text = "Date Not Found"  # Replace this with actual date extraction logic
                 
-                # You can adjust this extraction method based on your inspection
+                # Example logic to extract date from the news item
                 try:
-                    # Example of getting a date element if it exists:
-                    # date_element = item.find_element(By.CLASS_NAME, 'actual-date-class-name')
-                    # date_text = date_element.text.strip()  
-                    
-                    # If you have a specific way to derive date from the news_text, do that here
-                    # Example: extract date from news_text if it's part of the title
-                    # date_text = extract_date_from_news_text(news_text)  # Implement this function
-                    
-                    # Placeholder for formatted date
-                    formatted_date = datetime.now().strftime("%Y-%m-%d")  # Replace with actual date logic
-                    
-                    # Write to the CSV file
-                    writer.writerow([formatted_date, news_text])
-                    print(f"{formatted_date}: {news_text}")  # Print to console (optional)
-                    
-                except Exception as date_extraction_error:
-                    print("Error extracting date:", date_extraction_error)
-                    continue  # Skip this item if date extraction fails
-                
+                    # This assumes there's a date element related to the news item
+                    date_element = item.find_element(By.CLASS_NAME, 'news-date')  # Update with actual class if necessary
+                    date_text = date_element.text.strip()
+                except Exception:
+                    date_text = datetime.now().strftime("%Y-%m-%d")  # Default to current date if not found
+
+                # Write to the CSV file in a clean format
+                writer.writerow([news_title, date_text, details_text])
+                print(f"Title: {news_title}, Date: {date_text}, Details: {details_text}")  # Print to console (optional)
+
     print("News items have been saved to 'news.csv'")
 
 except Exception as e:
