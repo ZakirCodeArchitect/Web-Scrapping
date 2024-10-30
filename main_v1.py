@@ -1,7 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # Path to your ChromeDriver
 chrome_driver_path = "C:/Users/Hp/Downloads/chromedriver-win64/chromedriver-win64/chromedriver.exe"
@@ -16,12 +17,18 @@ url = 'https://ihc.gov.pk/'
 # Open the webpage
 driver.get(url)
 
-# Wait for the page to load fully (adjust if necessary)
-time.sleep(5)  # Adjust this if the page takes longer to load
-
 try:
-    # Locate the div with id 'divnews'
-    news_div = driver.find_element(By.ID, 'divnews')
+    # Wait for the iframe to be present and switch to it
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, 'iframe'))
+    )
+    iframe = driver.find_element(By.TAG_NAME, 'iframe')
+    driver.switch_to.frame(iframe)  # Switch to the iframe
+
+    # Wait for the news div to be present in the DOM
+    news_div = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, 'divnews'))
+    )
     
     # Find all list items (li tags) within the news div
     news_items = news_div.find_elements(By.TAG_NAME, 'li')
@@ -41,5 +48,6 @@ except Exception as e:
     print("Could not find the news section. Verify the HTML structure or loading time.")
     print("Error:", e)
 
-# Close the WebDriver
-driver.quit()
+finally:
+    # Close the WebDriver
+    driver.quit()
