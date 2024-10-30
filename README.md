@@ -32,7 +32,7 @@ The **Islamabad High Court Web Scraping Project** is a Python-based application 
 - **Programming Language**: Python
 - **Libraries**:
   - `requests`: For sending HTTP requests to retrieve web pages.
-  - `BeautifulSoup`: For parsing HTML and XML documents.
+  - `Selenium`: to automate browser actions and scrape dynamically loaded content from websites that require interaction, ensuring accurate and up-to-date data extraction.
   - `pandas`: For data manipulation and storage in CSV format.
   - `schedule`: For scheduling daily scraping tasks.
   - `time`: For implementing delays between requests to avoid overwhelming the server.
