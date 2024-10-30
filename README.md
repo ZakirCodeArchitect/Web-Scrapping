@@ -30,12 +30,11 @@ The **Islamabad High Court Web Scraping Project** is a Python-based application 
 ## Technologies Used
 
 - **Programming Language**: Python
-- **Libraries**:
-  - `requests`: For sending HTTP requests to retrieve web pages.
-  - `Selenium`: to automate browser actions and scrape dynamically loaded content from websites that require interaction, ensuring accurate and up-to-date data extraction.
-  - `pandas`: For data manipulation and storage in CSV format.
-  - `schedule`: For scheduling daily scraping tasks.
-  - `time`: For implementing delays between requests to avoid overwhelming the server.
+- ## Libraries Used
+- **Selenium**: For automating browser interactions and scraping dynamic content from websites.
+- **WebDriver**: Part of the Selenium package for controlling the web browser.
+- **ChromeDriver**: A separate executable that Selenium WebDriver uses to control Chrome.
+
 - **Environment**: Can be run in any Python environment, preferably within a virtual environment.
 
 ## Installation
